@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-const { default: mongoose } = require('mongoose');
+// const { mongoose } = require('mongoose');
 const models = require('../models');
 
 const { Domo } = models;
