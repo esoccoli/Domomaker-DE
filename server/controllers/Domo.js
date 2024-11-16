@@ -20,7 +20,11 @@ const makeDomo = async (req, res) => {
   try {
     const newDomo = new Domo(domoData);
     await newDomo.save();
-    return res.status(201).json({ name: newDomo.name, nickname: newDomo.nickname, age: newDomo.age });
+    return res.status(201).json({
+      name: newDomo.name,
+      nickname: newDomo.nickname,
+      age: newDomo.age,
+    });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
