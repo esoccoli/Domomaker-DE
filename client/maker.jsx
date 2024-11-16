@@ -10,31 +10,67 @@ const handleDomo = (e, onDomoAdded) => {
 
   const name = e.target.querySelector('#domoName').value;
   const age = e.target.querySelector('#domoAge').value;
+  const nickname = e.target.querySelector('#domoNickname').value;
 
-  if (!name || !age) {
+  if (!name || !age || !nickname) {
     helper.handleError('All fields are required');
     return false;
   }
 
-  helper.sendPost(e.target.action, { name, age }, onDomoAdded);
+  helper.sendPost(e.target.action, { name, age, nickname }, onDomoAdded);
   return false;
 };
 
+const handleDelete = (e, onDomoDeleted) => {
+  e.preventDefault();
+  helper.hideError();
+
+  const name = e.target.querySelector('#delDomoName').value;
+  const nickname = e.target.querySelector("#delDomoNickname").value;
+  const age = e.target.querySelector("#delDomoAge").value;
+
+  if (!name || !nickname || !age) {
+    helper.handleError('All fields are required.');
+    return false;
+  }
+
+  helper.sendDelete(e.target.action, { name, age, nickname }, onDomoDeleted);
+  return false;
+}
 const DomoForm = (props) => {
   return (
-    <form id='domoForm'
-      onSubmit={(e) => handleDomo(e, props.triggerReload)}
-      name='domoForm'
-      action='/maker'
-      method='POST'
-      className='domoForm'
-    >
-      <label htmlFor='name'>Name: </label>
-      <input id='domoName' type='text' name='name' placeholder='Domo Name' />
-      <label htmlFor='age'>Age: </label>
-      <input id='domoAge' type='number' min='0' name='age' />
-      <input className='makeDomoSubmit' type='submit' value="Make Domo" />
-    </form>
+    <div>
+      <form id='domoForm'
+        onSubmit={(e) => handleDomo(e, props.triggerReload)}
+        name='domoForm'
+        action='/maker'
+        method='POST'
+        className='domoForm'
+      >
+        <label htmlFor='name'>Name: </label>
+        <input id='domoName' type='text' name='name' placeholder='Domo Name' />
+        <label htmlFor='nickname'>Nickname: </label>
+        <input id='domoNickname' type='text' name='Nickname' placeholder='Domo Nickname' />
+        <label htmlFor='age'>Age: </label>
+        <input id='domoAge' type='number' min='0' name='age' />
+        <input className='makeDomoSubmit' type='submit' value="Make Domo" />
+      </form>
+      <form id='deleteDomoForm'
+        onSubmit={(e) => handleDelete(e, props.triggerReload)}
+        name='deleteDomoForm'
+        action='/deleteDomo'
+        method='DELETE'
+        className='deleteDomoForm'
+      >
+        <label htmlFor='name'>Name: </label>
+        <input id='delDomoName' type='text' name='name' placeholder='Domo Name' />
+        <label htmlFor='nickname'>Nickname: </label>
+        <input id='delDomoNickname' type='text' name='Nickname' placeholder='Domo Nickname' />
+        <label htmlFor='age'>Age: </label>
+        <input id='delDomoAge' type='number' min='0' name='age' />
+        <input className='deleteDomoSubmit' type='submit' value="Delete Domo" />
+      </form>
+    </div>
   );
 };
 
@@ -63,6 +99,7 @@ const DomoList = (props) => {
       <div key={domo.id} className='domo'>
         <img src="/assets/img/domoface.jpeg" alt="domo face" className='domoFace' />
         <h3 className='domoName'>Name: {domo.name}</h3>
+        <h3 className='domoNickname'>Nickname: {domo.nickname}</h3>
         <h3 className='domoAge'>Age: {domo.age}</h3>
       </div>
     );
